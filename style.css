@@ -1,0 +1,42 @@
+﻿:root {
+      color-scheme: dark;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background: #10191c;
+      color: #f1f0dc;
+      --panel: #1b292b;
+      --accent: #e6b94f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 22px 14px 30px; }
+    main { width: min(100%, 1000px); margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+    h1 { margin: 0; color: var(--accent); font-size: clamp(1.35rem, 4vw, 2rem); letter-spacing: .08em; text-transform: uppercase; }
+    .subtitle { margin: 5px 0 0; color: #b7c4b8; font-size: .94rem; }
+    .stage-tag { border: 1px solid #53635b; border-radius: 999px; padding: 7px 12px; color: #d3ddc8; white-space: nowrap; font-size: .82rem; }
+    .game-frame { overflow: hidden; border: 2px solid #59665a; border-radius: 10px; background: #162124; box-shadow: 0 14px 38px #0008; }
+    .hud { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #202e2f; color: #e7e5cd; font-size: .9rem; }
+    .hud strong { color: var(--accent); }
+    canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: #8eb3a4; image-rendering: pixelated; }
+    .below { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; margin-top: 12px; }
+    .panel { padding: 13px 15px; border: 1px solid #3c4b48; border-radius: 9px; background: var(--panel); }
+    .panel h2 { margin: 0 0 9px; color: var(--accent); font-size: .92rem; letter-spacing: .06em; text-transform: uppercase; }
+    .controls { display: flex; flex-wrap: wrap; gap: 7px; }
+    .control { display: flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 6px; background: #263638; font-size: .82rem; }
+    .control button { border: 1px solid #64756a; border-radius: 4px; background: #344748; color: #fff3cc; padding: 4px 7px; cursor: pointer; }
+    .control button:hover, .screen-button:hover, .restart:hover { background: #4a6056; }
+    .control button.listening { outline: 2px solid var(--accent); }
+    .hint { margin: 9px 0 0; color: #b8c5bb; font-size: .8rem; line-height: 1.4; }
+    .touch-controls { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; }
+    .touch-group { display: flex; gap: 8px; }
+    .screen-button, .restart { min-width: 56px; min-height: 48px; border: 1px solid #627267; border-radius: 8px; background: #263638; color: #f5edcf; font-weight: 700; touch-action: none; cursor: pointer; }
+    .screen-button span { display: block; color: #d4b963; font-size: .7rem; font-weight: 400; }
+    .message { min-height: 1.3em; margin: 8px 0 0; color: #f0cf75; font-size: .84rem; }
+    .restart { padding: 0 13px; border-color: #9a8144; color: #f3d37d; }
+    @media (max-width: 650px) {
+      body { padding: 14px 9px 22px; }
+      .below { grid-template-columns: 1fr; }
+      .hud { font-size: .78rem; padding: 9px 10px; }
+      .stage-tag { font-size: .72rem; }
+      .touch-controls { margin-top: 9px; }
+      .screen-button { min-width: 48px; min-height: 46px; }
+    }

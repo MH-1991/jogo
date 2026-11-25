@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operação Horizonte</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Operação saida</h1>
+        <p class="subtitle">Bora, esquiva a os soldados e chega ao ponto final.</p>
+      </div>
+      <span class="stage-tag" id="stage">STAGE 1 · ZONA DE FRONTEIRA</span>
+    </header>
+
+    <section class="game-frame" aria-label="Jogo">
+      <div class="hud">
+        <span>VIDAS: <strong id="lives">♥ ♥ ♥</strong></span>
+        <span>SOLDADOS: <strong id="score">0</strong></span>
+        <span id="progress">RECORRIDO: <strong>0%</strong></span>
+      </div>
+      <canvas id="game" width="960" height="540" aria-label="Campo de juego"></canvas>
+    </section>
+
+    <div class="below">
+      <section class="panel">
+        <h2>Controles · aperta para reassinar</h2>
+        <div class="controls" id="key-controls"></div>
+        <p class="hint">Teclas iniciales: A / 4 esquerda, D / 6 direita, W / 8 pular, S / 2 abaixar y J / espaço para disparar. Tambem pode utilizar os botoes de baixo.</p>
+        <p class="message" id="message" aria-live="polite">Boa sorte, soldado!</p>
+      </section>
+      <section class="panel">
+        <h2>Controles na tela</h2>
+        <div class="touch-controls">
+          <div class="touch-group">
+            <button class="screen-button" data-action="left" aria-label="Esquierda">◀<span>ESQ</span></button>
+            <button class="screen-button" data-action="right" aria-label="Direita">▶<span>DIR</span></button>
+          </div>
+          <div class="touch-group">
+            <button class="screen-button" data-action="crouch" aria-label="Abaixar">▼<span>ABAIXAR</span></button>
+            <button class="screen-button" data-action="jump" aria-label="Pular">▲<span>PULAR</span></button>
+            <button class="screen-button" data-action="fire" aria-label="Atirar">●<span>ATIRAR</span></button>
+          </div>
+        </div>
+        <p><button class="restart" id="restart" type="button">Reiniciar mundo</button></p>
+        <p class="hint">Mantén apertado para se movimentar ou atirar. O jogo pode se jogar con teclado ou tela digital.</p>
+      </section>
+    </div>
+  </main>
+  <script src="game.js" defer></script>
+</body>
+</html>
+
