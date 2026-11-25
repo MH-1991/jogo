@@ -60,6 +60,9 @@
         const action = actions.find(item => item.id === id);
         return touchDown.has(id) || action.keys.some(key => keysDown.has(key));
       }
+      function nightProgress() {
+        return Math.max(0, Math.min(1, (player.x / (WORLD - 60) - .15) / .85));
+      }
       function setMessage(text) { document.getElementById("message").textContent = text; }
       function updateHud() {
         document.getElementById("lives").textContent = lives ? Array(lives).fill("♥").join(" ") : "0";
@@ -145,6 +148,7 @@
         if (left) { player.x -= 235 * dt; player.facing = -1; }
         if (right) { player.x += 235 * dt; player.facing = 1; }
         player.x = Math.max(0, Math.min(WORLD - 60, player.x));
+        const night = nightProgress();
         if (actionPressed("jump") && player.onGround && !crouching) {
           player.vy = -480; player.onGround = false;
         }
@@ -168,12 +172,12 @@
 
         enemies.forEach(enemy => {
           if (!enemy.alive) return;
-          enemy.x += enemy.dir * (25 + level * 4) * dt;
+          enemy.x += enemy.dir * (25 + level * 4 + night * 16) * dt;
           if (enemy.x < 330 || enemy.x > WORLD - 240) enemy.dir *= -1;
           enemy.cooldown -= dt;
-          if (enemy.cooldown <= 0 && Math.abs(enemy.x - player.x) < 510) {
-            enemyBullets.push({ x: enemy.x + (enemy.dir < 0 ? 0 : enemy.w), y: enemy.y + 18, vx: (player.x < enemy.x ? -1 : 1) * (250 + level * 15), life: 2.4 });
-            enemy.cooldown = Math.max(.45, 1.8 - level * .1) + Math.random() * .8;
+          if (enemy.cooldown <= 0 && Math.abs(enemy.x - player.x) < 510 + night * 240) {
+            enemyBullets.push({ x: enemy.x + (enemy.dir < 0 ? 0 : enemy.w), y: enemy.y + 18, vx: (player.x < enemy.x ? -1 : 1) * (250 + level * 15 + night * 60), life: 2.4 });
+            enemy.cooldown = Math.max(.35, 1.8 - level * .1 - night * .7) + Math.random() * .8;
           }
           const playerH = crouching ? 32 : player.h;
           if (player.invincible <= 0 && player.x < enemy.x + enemy.w && player.x + player.w > enemy.x &&
@@ -229,6 +233,8 @@
           ctx.fillStyle = i % 2 ? "#726e4a" : "#9b8b59";
           ctx.fillRect(x, FLOOR + 25 + (i % 6) * 12, 18 + i % 10, 3);
         }
+        ctx.fillStyle = "rgba(8, 13, 30, " + (nightProgress() * .66) + ")";
+        ctx.fillRect(0, 0, W, H);
       }
       function drawSoldier(x, y, w, h, color, facing) {
         ctx.save(); ctx.translate(Math.round(x), Math.round(y));
