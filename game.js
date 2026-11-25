@@ -18,6 +18,7 @@
         { x: 1900, y: 385, w: 190 }, { x: 2680, y: 350, w: 160 },
         { x: 3430, y: 380, w: 190 }, { x: 4200, y: 345, w: 175 }
       ];
+      const hearts = platforms.map(platform => ({ x: platform.x + platform.w / 2 - 9, y: platform.y - 28, collected: false }));
       function populateEnemies() {
         enemies.length = 0;
         for (let x = 420; x < WORLD - 260; x += Math.max(145, 310 + (Math.sin(x) + 1) * 55 - (level - 1) * 23)) {
@@ -125,6 +126,7 @@
         player.x = 70; player.y = FLOOR - player.h; player.vy = 0; player.facing = 1; player.onGround = true; player.invincible = 0;
         lives = 3; camera = 0; gameState = "playing"; fireTimer = 0;
         bullets.length = 0; enemyBullets.length = 0;
+        hearts.forEach(heart => { heart.collected = false; });
         populateEnemies();
         document.getElementById("restart").textContent = "Reiniciar partida";
         updateHud();
@@ -166,6 +168,15 @@
             player.y = landing - player.h; player.vy = 0; player.onGround = true;
           }
         }
+        hearts.forEach(heart => {
+          if (!heart.collected && lives < 3 && player.x < heart.x + 18 && player.x + player.w > heart.x &&
+              player.y < heart.y + 18 && player.y + player.h > heart.y) {
+            heart.collected = true;
+            lives++;
+            setMessage("Você recuperou uma vida!");
+            updateHud();
+          }
+        });
         if (player.invincible > 0) player.invincible -= dt;
         fireTimer -= dt;
         if (actionPressed("fire") && fireTimer <= 0) { shoot(); fireTimer = .22; }
@@ -254,6 +265,13 @@
           ctx.fillStyle = "#665f43"; ctx.fillRect(platform.x, platform.y, platform.w, 12);
           ctx.fillStyle = "#9c8b59"; ctx.fillRect(platform.x, platform.y, platform.w, 4);
           ctx.fillStyle = "#46583e"; ctx.fillRect(platform.x + 10, platform.y + 12, platform.w - 20, 7);
+        });
+        hearts.forEach(heart => {
+          if (!heart.collected) {
+            ctx.fillStyle = "#f04d58";
+            ctx.font = "24px Arial";
+            ctx.fillText("♥", heart.x, heart.y + 20);
+          }
         });
         enemies.forEach(enemy => { if (enemy.alive) drawSoldier(enemy.x, enemy.y, enemy.w, enemy.h, "#756443", enemy.dir); });
         bullets.forEach(b => { ctx.fillStyle = "#ffe078"; ctx.fillRect(b.x, b.y, 13, 4); });
