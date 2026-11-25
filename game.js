@@ -21,7 +21,10 @@
       const hearts = platforms.map(platform => ({ x: platform.x + platform.w / 2 - 9, y: platform.y - 28, collected: false }));
       function populateEnemies() {
         enemies.length = 0;
-        for (let x = 420; x < WORLD - 260; x += Math.max(145, 310 + (Math.sin(x) + 1) * 55 - (level - 1) * 23)) {
+        const count = 12 + level * 2;
+        const spacing = (WORLD - 680) / (count - 1);
+        for (let i = 0; i < count; i++) {
+          const x = 420 + i * spacing;
           enemies.push({ x, y: FLOOR - 40, w: 28, h: 40, dir: Math.random() < .5 ? -1 : 1, alive: true, cooldown: Math.max(.4, 1.8 - level * .12) + Math.random() });
         }
       }
@@ -62,7 +65,7 @@
         return touchDown.has(id) || action.keys.some(key => keysDown.has(key));
       }
       function nightProgress() {
-        return Math.max(0, Math.min(1, (player.x / (WORLD - 60) - .15) / .85));
+        return Math.max(0, Math.min(1, (player.x / (WORLD - 60) - .08) / .92));
       }
       function setMessage(text) { document.getElementById("message").textContent = text; }
       function updateHud() {
