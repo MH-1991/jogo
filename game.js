@@ -28,7 +28,7 @@
 
       const controls = document.getElementById("key-controls");
       function keyName(key) {
-        if (key === " ") return "ESPACIO";
+        if (key === " ") return "ESPACO";
         if (key.length === 1) return key.toUpperCase();
         return key.toUpperCase();
       }
@@ -42,11 +42,11 @@
           const button = document.createElement("button");
           button.type = "button";
           button.textContent = action.keys.map(keyName).join(" / ");
-          button.setAttribute("aria-label", "Cambiar tecla para " + action.label);
+          button.setAttribute("aria-label", "Mudar a tecla para " + action.label);
           button.addEventListener("click", () => {
             document.querySelectorAll(".control button").forEach(el => el.classList.remove("listening"));
             button.classList.add("listening");
-            document.getElementById("message").textContent = "Pulsa una tecla para " + action.label.toLowerCase() + "… (Esc cancela)";
+            document.getElementById("message").textContent = "Aperta una tecla para " + action.label.toLowerCase() + "… (Esc cancela)";
             waitingFor = action;
           });
           item.append(label, button);
@@ -262,7 +262,7 @@
         if (gameState !== "playing") {
           ctx.fillStyle = "#10191dcc"; ctx.fillRect(0, 0, W, H);
           ctx.textAlign = "center"; ctx.fillStyle = gameState === "won" ? "#f5d477" : "#ef9479";
-          ctx.font = "bold 42px Trebuchet MS, Arial"; ctx.fillText(gameState === "won" ? "¡MISIÓN CUMPLIDA!" : "FIN DEL JUEGO", W / 2, H / 2);
+          ctx.font = "bold 42px Trebuchet MS, Arial"; ctx.fillText(gameState === "won" ? "¡MISIÓN CUMPLIDA!" : "FIM DE JOGO", W / 2, H / 2);
           ctx.fillStyle = "#f1f0dc"; ctx.font = "18px Trebuchet MS, Arial"; ctx.fillText("Pulsa Reiniciar o Enter", W / 2, H / 2 + 38);
           ctx.textAlign = "start";
         }
