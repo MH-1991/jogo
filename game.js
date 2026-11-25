@@ -12,7 +12,7 @@
       const keysDown = new Set(), touchDown = new Set();
       const enemies = [], bullets = [], enemyBullets = [];
       const player = { x: 70, y: FLOOR - 48, w: 30, h: 48, vy: 0, facing: 1, onGround: true, invincible: 0 };
-      let camera = 0, lives = 3, score = 0, level = 1, gameState = "playing", lastTime = 0;
+      let camera = 0, lives = 3, score = 0, level = 1, gameState = "playing", lastTime = 0, retreatSpawnTimer = 1.2;
       const platforms = [
         { x: 680, y: 380, w: 155 }, { x: 1210, y: 345, w: 170 },
         { x: 1900, y: 385, w: 190 }, { x: 2680, y: 350, w: 160 },
@@ -128,6 +128,7 @@
       function resetStage() {
         player.x = 70; player.y = FLOOR - player.h; player.vy = 0; player.facing = 1; player.onGround = true; player.invincible = 0;
         lives = 3; camera = 0; gameState = "playing"; fireTimer = 0;
+        retreatSpawnTimer = 1.2;
         bullets.length = 0; enemyBullets.length = 0;
         hearts.forEach(heart => { heart.collected = false; });
         populateEnemies();
@@ -153,6 +154,15 @@
         if (left) { player.x -= 235 * dt; player.facing = -1; }
         if (right) { player.x += 235 * dt; player.facing = 1; }
         player.x = Math.max(0, Math.min(WORLD - 60, player.x));
+        if (left && !right && player.x > 840) {
+          retreatSpawnTimer -= dt;
+          if (retreatSpawnTimer <= 0) {
+            enemies.push({ x: Math.max(330, player.x - 520), y: FLOOR - 40, w: 28, h: 40, dir: 1, alive: true, cooldown: Math.max(.4, 1.8 - level * .12) + Math.random() });
+            retreatSpawnTimer = 2.2;
+          }
+        } else {
+          retreatSpawnTimer = 1.2;
+        }
         const night = nightProgress();
         if (actionPressed("jump") && player.onGround && !crouching) {
           player.vy = -480; player.onGround = false;
